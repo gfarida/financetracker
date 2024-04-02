@@ -1,4 +1,4 @@
-# financetraker
+# financetracker
 
 Телеграм-бот для трекинга и анализа финансов
 
