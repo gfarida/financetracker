@@ -35,3 +35,4 @@
 
 
 ## Макет интерфейса
+![user flow](./userflow.png)
