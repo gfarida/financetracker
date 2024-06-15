@@ -1,6 +1,7 @@
 import logging
 from telegram import Update
 from telegram.ext import Application, CommandHandler, CallbackContext
+from handlers.expense_handler import add_expense
 
 from config.config import TELEGRAM_BOT_TOKEN
 
@@ -18,7 +19,7 @@ def main():
     application = Application.builder().token(TELEGRAM_BOT_TOKEN).build()
 
     application.add_handler(CommandHandler("start", start))
-
+    application.add_handler(CommandHandler("add", add_expense))
     application.run_polling()
 
 if __name__ == '__main__':
