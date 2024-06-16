@@ -9,7 +9,7 @@ Base = declarative_base()
 class User(Base):
     __tablename__ = 'users'
     uid = Column(Integer, primary_key=True)
-    name = Column(String, unique=True, nullable=False)
+    name = Column(String, nullable=False)
 
     expenses = relationship("Expense", back_populates="user")
     budgets = relationship("Budget", back_populates="user")
