@@ -36,3 +36,6 @@
 
 ## Макет интерфейса
 ![user flow](./userflow.png)
+
+## Схема базы данных
+![database](./database.png)
