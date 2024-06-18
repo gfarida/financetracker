@@ -106,6 +106,9 @@ async def financial_analysis(update: Update, context: CallbackContext) -> None:
             for category in categories
         }
 
+        if total_expenses == 0:
+            await context.bot.send_message(chat_id=update.effective_chat.id, text="За текущий период расходов нет")
+            return
         response = f"Финансовый анализ с *{start_date_str} {start_time_str}* по *{end_date_str} {end_time_str}*:\n"
         response += f"*Общие расходы*: {total_expenses}\n\n"
         response += "Расходы по категориям:\n"
