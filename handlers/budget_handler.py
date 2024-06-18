@@ -1,6 +1,7 @@
 from telegram import Update
 from telegram.ext import CallbackContext
-from models.finance_model import Budget, session, User
+from models.finance_model import Budget, session, User, Expense
+from sqlalchemy import func
 
 async def set_budget(update: Update, context: CallbackContext) -> None:
     try:
@@ -62,9 +63,11 @@ async def show_budgets(update: Update, context: CallbackContext) -> None:
             await update.message.reply_text('У вас нет установленных бюджетов.')
             return
 
+        
         response = "Ваши установленные бюджеты:\n"
         for budget in budgets:
-            response += f"Категория: *{budget.category}* - Бюджет: *{budget.amount}*\n"
+            total_spent = session.query(func.sum(Expense.amount)).filter_by(uid=user_id, category=budget.category).scalar() or 0
+            response += f"Категория: *{budget.category}* - Бюджет: *{budget.amount}.* Израсходовано: *{total_spent / budget.amount * 100:.2f}% * ({total_spent} / {budget.amount})\n"
 
         await update.message.reply_text(response, parse_mode='Markdown')
     except Exception as e:
