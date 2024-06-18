@@ -10,7 +10,7 @@ async def add_expense(update: Update, context: CallbackContext) -> None:
     text = update.message.text.split()
 
     if len(text) < 3:
-        await update.message.reply_text("Пожалуйста, используйте формат: /add <сумма> <категория> <описание>")
+        await update.message.reply_text("Пожалуйста, используйте формат: /add <сумма> <описание>")
         return
 
     try:
@@ -30,10 +30,13 @@ async def add_expense(update: Update, context: CallbackContext) -> None:
         session.add(new_expense)
         session.commit()
 
+        print(f"User ID: {user.uid}, Category: {category}")
+
         # Проверка бюджета
-        budget = session.query(Budget).filter_by(category=category).first()
+        budget = session.query(Budget).filter_by(uid=user.uid, category=category).first()
+        print(budget)
         if budget:
-            total_spent = session.query(Expense).filter_by(category=category).with_entities(func.sum(Expense.amount)).scalar() or 0
+            total_spent = session.query(Expense).filter_by(uid=user.uid, category=category).with_entities(func.sum(Expense.amount)).scalar() or 0
             if total_spent > budget.amount:
                 await update.message.reply_text(f"Внимание! Бюджет для категории *{category}* превышен! Установленный бюджет: *{budget.amount}*, текущий бюджет: *{total_spent}*", parse_mode='Markdown')
 
@@ -41,7 +44,7 @@ async def add_expense(update: Update, context: CallbackContext) -> None:
                                         f"Вы израсходовали *{(total_spent / budget.amount) * 100:.2f}%* бюджета, выделенного на категорию *{category}*", parse_mode='Markdown')
     except Exception as e:
         print(e)
-        await update.message.reply_text("Пожалуйста, используйте формат: /add <сумма> <категория> <описание>")
+        await update.message.reply_text("Пожалуйста, используйте формат: /add <сумма> <описание>")
 
 
 async def show_expenses(update: Update, context: CallbackContext) -> None:
