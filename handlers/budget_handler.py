@@ -102,11 +102,11 @@ async def financial_analysis(update: Update, context: CallbackContext) -> None:
             for category in categories
         }
 
-        response = f"Финансовый анализ с {start_date_str} {start_time_str} по {end_date_str} {end_time_str}:\n"
-        response += f"Общие расходы: {total_expenses}\n\n"
+        response = f"Финансовый анализ с *{start_date_str} {start_time_str}* по *{end_date_str} {end_time_str}*:\n"
+        response += f"*Общие расходы*: {total_expenses}\n\n"
         response += "Расходы по категориям:\n"
         for category, amount in category_expenses.items():
-            response += f"{category}: {amount}\n"
+            response += f"*{category}*: {amount}\n"
 
         labels = list(category_expenses.keys())
         sizes = list(category_expenses.values())
@@ -121,7 +121,7 @@ async def financial_analysis(update: Update, context: CallbackContext) -> None:
         pie_chart_path = 'pie_chart.png'
         plt.savefig(pie_chart_path)
 
-        await context.bot.send_photo(chat_id=update.effective_chat.id, photo=open(pie_chart_path, 'rb'), caption=response)
+        await context.bot.send_photo(chat_id=update.effective_chat.id, photo=open(pie_chart_path, 'rb'), caption=response, parse_mode='Markdown')
 
     except IndexError:
         await context.bot.send_message(chat_id=update.effective_chat.id, text='Пожалуйста, используйте формат: /financial_analysis <start_date> <start_time> <end_date> <end_time>. Формат даты и времени: YYYY-MM-DD HH:MM:SS')
