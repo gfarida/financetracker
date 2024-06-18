@@ -1,7 +1,7 @@
 import logging
 from telegram import Update
 from telegram.ext import Application, CommandHandler, CallbackContext
-from handlers.user_handler import start
+from handlers.user_handler import start, show_help
 from handlers.expense_handler import add_expense, show_expenses, delete_expense
 from handlers.budget_handler import set_budget, delete_budget, show_budgets
 
@@ -26,6 +26,7 @@ def main():
     application.add_handler(CommandHandler("delete", delete_expense))
     application.add_handler(CommandHandler("delete_budget", delete_budget))
     application.add_handler(CommandHandler("show_budgets", show_budgets))
+    application.add_handler(CommandHandler("help", show_help))
 
     application.run_polling()
 
