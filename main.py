@@ -3,7 +3,7 @@ from telegram import Update
 from telegram.ext import Application, CommandHandler, CallbackContext
 from handlers.user_handler import start
 from handlers.expense_handler import add_expense, show_expenses, delete_expense
-from handlers.budget_handler import set_budget
+from handlers.budget_handler import set_budget, delete_budget
 
 from config.config import TELEGRAM_BOT_TOKEN
 
@@ -24,6 +24,8 @@ def main():
     application.add_handler(CommandHandler("show", show_expenses))
     application.add_handler(CommandHandler("set_budget", set_budget))
     application.add_handler(CommandHandler("delete", delete_expense))
+    application.add_handler(CommandHandler("delete_budget", delete_budget))
+
     application.run_polling()
 
 
