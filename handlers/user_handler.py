@@ -20,8 +20,9 @@ async def start(update: Update, context: CallbackContext) -> None:
                             "/set_budget <категория> <сумма> - Установить бюджет для категории\n"
                             "/delete_budget <категория> - Удалить установленный бюджет для категории\n"
                             "/show_budgets - Показать все установленные бюджеты\n"
-                            "/show_expenses - Показать все добавленные траты\n"
+                            "/show - Показать все добавленные траты\n"
                             "/remove_expense <id> - Удалить трату по ID\n"
+                            "/analysis <start_date> <start_time> <end_date> <end_time>. Формат даты и времени: YYYY-MM-DD HH:MM:SS\n"
                             "/help - Показать это сообщение\n")
     else:
         welcome_message = ("Привет! Вы уже зарегистрированы.\n"
@@ -31,8 +32,9 @@ async def start(update: Update, context: CallbackContext) -> None:
                             "/set_budget <категория> <сумма> - Установить бюджет для категории\n"
                             "/delete_budget <категория> - Удалить установленный бюджет для категории\n"
                             "/show_budgets - Показать все установленные бюджеты\n"
-                            "/show_expenses - Показать все добавленные траты\n"
+                            "/show - Показать все добавленные траты\n"
                             "/remove_expense <id> - Удалить трату по ID\n"
+                            "/analysis <start_date> <start_time> <end_date> <end_time>. Формат даты и времени: YYYY-MM-DD HH:MM:SS\n"
                             "/help - Показать это сообщение\n")
     
     await update.message.reply_text(welcome_message)
@@ -46,8 +48,9 @@ async def show_help(update: Update, context: CallbackContext) -> None:
         "/set_budget <категория> <сумма> - Установить бюджет для категории\n"
         "/delete_budget <категория> - Удалить установленный бюджет для категории\n"
         "/show_budgets - Показать все установленные бюджеты\n"
-        "/show_expenses - Показать все добавленные траты\n"
+        "/show - Показать все добавленные траты\n"
         "/remove_expense <id> - Удалить трату по ID\n"
+        "/analysis <start_date> <start_time> <end_date> <end_time>. Формат даты и времени: YYYY-MM-DD HH:MM:SS\n"
         "/help - Показать это сообщение\n"
     )
     await update.message.reply_text(help_text)

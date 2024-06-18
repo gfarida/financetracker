@@ -124,7 +124,7 @@ async def financial_analysis(update: Update, context: CallbackContext) -> None:
         await context.bot.send_photo(chat_id=update.effective_chat.id, photo=open(pie_chart_path, 'rb'), caption=response)
 
     except IndexError:
-        await context.bot.send_message(chat_id=update.effective_chat.id, text='Пожалуйста, используйте формат: /financial_analysis <start_date> <start_time> <end_date> <end_time>. Пример формата даты и времени: YYYY-MM-DD HH:MM:SS')
+        await context.bot.send_message(chat_id=update.effective_chat.id, text='Пожалуйста, используйте формат: /financial_analysis <start_date> <start_time> <end_date> <end_time>. Формат даты и времени: YYYY-MM-DD HH:MM:SS')
     except Exception as e:
         print(e)
         await context.bot.send_message(chat_id=update.effective_chat.id, text='Произошла ошибка при выполнении анализа.')
