@@ -46,3 +46,27 @@ async def delete_budget(update: Update, context: CallbackContext) -> None:
     except Exception as e:
         print(e)
         await update.message.reply_text('Произошла ошибка при удалении бюджета.')
+
+
+async def show_budgets(update: Update, context: CallbackContext) -> None:
+    try:
+        user_id = update.effective_user.id
+
+        user = session.query(User).filter(User.uid == user_id).first()
+        if not user:
+            await update.message.reply_text('Сначала зарегистрируйтесь с помощью команды /start.')
+            return
+
+        budgets = session.query(Budget).filter_by(uid=user_id).all()
+        if not budgets:
+            await update.message.reply_text('У вас нет установленных бюджетов.')
+            return
+
+        response = "Ваши установленные бюджеты:\n"
+        for budget in budgets:
+            response += f"Категория: *{budget.category}* - Бюджет: *{budget.amount}*\n"
+
+        await update.message.reply_text(response, parse_mode='Markdown')
+    except Exception as e:
+        print(e)
+        await update.message.reply_text('Произошла ошибка при получении бюджетов.')
