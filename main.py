@@ -6,8 +6,7 @@ setting and deleting budgets, and providing financial analysis.
 Handlers for these commands are imported from separate modules.
 """
 import logging
-from telegram import Update
-from telegram.ext import Application, CommandHandler, CallbackContext
+from telegram.ext import Application, CommandHandler
 from handlers.user_handler import start, show_help
 from handlers.expense_handler import add_expense, show_expenses, delete_expense
 from handlers.budget_handler import set_budget, delete_budget, show_budgets, financial_analysis

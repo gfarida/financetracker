@@ -11,12 +11,15 @@ Functions:
     financial_analysis: Provides financial analysis for a specified period.
 """
 
+import datetime
+
 from telegram import Update
 from telegram.ext import CallbackContext
-from models.finance_model import Budget, session, User, Expense
 from sqlalchemy import func
-import datetime
 import matplotlib.pyplot as plt
+
+from models.finance_model import Budget, session, User, Expense
+
 
 async def set_budget(update: Update, context: CallbackContext) -> None:
     """
@@ -46,11 +49,12 @@ async def set_budget(update: Update, context: CallbackContext) -> None:
         else:
             budget = Budget(uid=user.uid, category=category, amount=amount)
             session.add(budget)
-        
+
         session.commit()
         await update.message.reply_text(f'Установлен бюджет: {amount} для категории {category}')
     except (IndexError, ValueError):
         await update.message.reply_text('Использование: /set_budget <категория> <сумма>')
+
 
 async def delete_budget(update: Update, context: CallbackContext) -> None:
     """
@@ -79,7 +83,7 @@ async def delete_budget(update: Update, context: CallbackContext) -> None:
             await update.message.reply_text(f'Бюджет для категории {category} удален! Бюджет установлен в бесконечность.')
         else:
             await update.message.reply_text(f'Бюджет для категории {category} не найден.')
-    except Exception as e:
+    except Exception as e:  # pylint: disable=broad-except,invalid-name
         print(e)
         await update.message.reply_text('Произошла ошибка при удалении бюджета.')
 
@@ -108,17 +112,15 @@ async def show_budgets(update: Update, context: CallbackContext) -> None:
             await update.message.reply_text('У вас нет установленных бюджетов.')
             return
 
-        
         response = "Ваши установленные бюджеты:\n"
         for budget in budgets:
             total_spent = session.query(func.sum(Expense.amount)).filter_by(uid=user_id, category=budget.category).scalar() or 0
             response += f"Категория: *{budget.category}* - Бюджет: *{budget.amount}.* Израсходовано: *{total_spent / budget.amount * 100:.2f}% * ({total_spent} / {budget.amount})\n"
 
         await update.message.reply_text(response, parse_mode='Markdown')
-    except Exception as e:
+    except Exception as e:  # pylint: disable=broad-except,invalid-name
         print(e)
         await update.message.reply_text('Произошла ошибка при получении бюджетов.')
-
 
 
 async def financial_analysis(update: Update, context: CallbackContext) -> None:
@@ -139,9 +141,11 @@ async def financial_analysis(update: Update, context: CallbackContext) -> None:
         start_time_str = args[1]
         end_date_str = args[2]
         end_time_str = args[3]
-        
-        start_datetime = datetime.datetime.strptime(start_date_str + ' ' + start_time_str, '%Y-%m-%d %H:%M:%S')
-        end_datetime = datetime.datetime.strptime(end_date_str + ' ' + end_time_str, '%Y-%m-%d %H:%M:%S')
+
+        start_datetime = datetime.datetime.strptime(start_date_str + ' ' + start_time_str,
+                                                    '%Y-%m-%d %H:%M:%S')
+        end_datetime = datetime.datetime.strptime(end_date_str + ' ' + end_time_str,
+                                                  '%Y-%m-%d %H:%M:%S')
 
         user_id = update.effective_user.id
 
@@ -167,10 +171,11 @@ async def financial_analysis(update: Update, context: CallbackContext) -> None:
 
         labels = list(category_expenses.keys())
         sizes = list(category_expenses.values())
+        # pylint: disable=no-member
         colors = plt.cm.viridis_r([float(i) / len(labels) for i in range(len(labels))])  # Генерация цветов по количеству категорий
 
-        fig, ax = plt.subplots()
-        wedges, texts, autotexts = ax.pie(sizes, labels=labels, autopct='%1.1f%%', colors=colors, startangle=90, wedgeprops={'edgecolor': 'black'})
+        _, ax = plt.subplots()
+        wedges, _, _ = ax.pie(sizes, labels=labels, autopct='%1.1f%%', colors=colors, startangle=90, wedgeprops={'edgecolor': 'black'})
         ax.legend(wedges, labels, title="Категории", loc="center left", bbox_to_anchor=(1, 0, 0.5, 1))
 
         ax.set_title('Расходы по категориям')
@@ -178,10 +183,14 @@ async def financial_analysis(update: Update, context: CallbackContext) -> None:
         pie_chart_path = 'pie_chart.png'
         plt.savefig(pie_chart_path)
 
-        await context.bot.send_photo(chat_id=update.effective_chat.id, photo=open(pie_chart_path, 'rb'), caption=response, parse_mode='Markdown')
+        await context.bot.send_photo(chat_id=update.effective_chat.id,
+                                     photo=open(pie_chart_path,'rb'),
+                                     caption=response, parse_mode='Markdown')
 
     except IndexError:
-        await context.bot.send_message(chat_id=update.effective_chat.id, text='Пожалуйста, используйте формат: /financial_analysis <start_date> <start_time> <end_date> <end_time>. Формат даты и времени: YYYY-MM-DD HH:MM:SS')
-    except Exception as e:
+        await context.bot.send_message(chat_id=update.effective_chat.id,
+                                       text='Пожалуйста, используйте формат: /financial_analysis <start_date> <start_time> <end_date> <end_time>. Формат даты и времени: YYYY-MM-DD HH:MM:SS')
+    except Exception as e:  # pylint: disable=broad-except,invalid-name
         print(e)
-        await context.bot.send_message(chat_id=update.effective_chat.id, text='Произошла ошибка при выполнении анализа.')
+        await context.bot.send_message(chat_id=update.effective_chat.id,
+                                       text='Произошла ошибка при выполнении анализа.')
