@@ -1,28 +1,30 @@
 import unittest
 from unittest.mock import patch, MagicMock
-from utils.openai_util import classify_expense
+from utils.openai_util import OpenAI
 
 class TestClassifyExpense(unittest.TestCase):
 
-    @patch('utils.openai_util.OpenAI')
+    @patch('utils.openai_util.OriginalOpenAI')
     def test_classify_expense_groceries(self, MockOpenAI):
-        mock_completions = MagicMock()
-        mock_completions.choices = [{'text': 'Groceries'}]
-        MockOpenAI.return_value.completions.return_value = mock_completions
+        mock_response = MagicMock()
+        mock_response.choices = [MagicMock(text='Groceries')]
+        MockOpenAI.return_value.completions.create.return_value = mock_response
 
-        description = "Bought groceries at the store"
-        result = classify_expense(description)
+        openai = OpenAI()
+        description = "Pizza and sushi"
+        result = openai.classify_expense(description)
         self.assertEqual(result, "Groceries")
 
-    @patch('utils.openai_util.OpenAI')
+    @patch('utils.openai_util.OriginalOpenAI')
     def test_classify_expense_other(self, MockOpenAI):
-        mock_completions = MagicMock()
-        mock_completions.choices = [{'text': 'Other'}]
-        MockOpenAI.return_value.completions.return_value = mock_completions
+        mock_response = MagicMock()
+        mock_response.choices = [MagicMock(text='Something')]
+        MockOpenAI.return_value.completions.create.return_value = mock_response
 
-        description = "Paid for parking"
-        result = classify_expense(description)
+        openai = OpenAI()
+        description = "Paid for something in a store"
+        result = openai.classify_expense(description)
         self.assertEqual(result, "Other")
 
-if __name__ == '__main__':
+if __name__ == 'main':
     unittest.main()
