@@ -1,0 +1,5 @@
+[MESSAGES CONTROL]
+disable=unused-argument,line-too-long,too-few-public-methods,too-many-locals
+
+[MASTER]
+good-names=ax
