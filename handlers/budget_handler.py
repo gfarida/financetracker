@@ -16,7 +16,9 @@ import datetime
 from telegram import Update
 from telegram.ext import CallbackContext
 from sqlalchemy import func
-import matplotlib.pyplot as plt
+import datetime
+import plotly.graph_objects as go
+
 
 from models.finance_model import Budget, session, User, Expense
 
@@ -163,6 +165,9 @@ async def financial_analysis(update: Update, context: CallbackContext) -> None:
             for category in categories
         }
 
+        if total_expenses == 0:
+            await context.bot.send_message(chat_id=update.effective_chat.id, text="За текущий период расходов нет")
+            return
         response = f"Финансовый анализ с *{start_date_str} {start_time_str}* по *{end_date_str} {end_time_str}*:\n"
         response += f"*Общие расходы*: {total_expenses}\n\n"
         response += "Расходы по категориям:\n"
@@ -171,17 +176,14 @@ async def financial_analysis(update: Update, context: CallbackContext) -> None:
 
         labels = list(category_expenses.keys())
         sizes = list(category_expenses.values())
-        # pylint: disable=no-member
-        colors = plt.cm.viridis_r([float(i) / len(labels) for i in range(len(labels))])  # Генерация цветов по количеству категорий
 
-        _, ax = plt.subplots()
-        wedges, _, _ = ax.pie(sizes, labels=labels, autopct='%1.1f%%', colors=colors, startangle=90, wedgeprops={'edgecolor': 'black'})
-        ax.legend(wedges, labels, title="Категории", loc="center left", bbox_to_anchor=(1, 0, 0.5, 1))
+        fig = go.Figure(data=[go.Pie(labels=labels, values=sizes, textinfo='label+percent',
+                                    texttemplate='%{label} (%{percent:.2%})', insidetextorientation='radial', hole=.3)])
 
-        ax.set_title('Расходы по категориям')
-
+        fig.update_layout(title_text='Расходы по категориям')
         pie_chart_path = 'pie_chart.png'
-        plt.savefig(pie_chart_path)
+        fig.write_image(pie_chart_path, scale=1.5)
+
 
         await context.bot.send_photo(chat_id=update.effective_chat.id,
                                      photo=open(pie_chart_path,'rb'),
