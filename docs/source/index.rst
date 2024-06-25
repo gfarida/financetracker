@@ -6,9 +6,6 @@
 Welcome to Finance Tracker's documentation!
 ===========================================
 
-Telegram Bot for Financial Tracking and Analysis
-================================================
-
 **Overview**
 
 This Telegram bot empowers users to manage their finances more effectively. It integrates key features for tracking expenses, analyzing spending patterns, and adhering to budgets, thereby simplifying personal finance management directly through Telegram.
