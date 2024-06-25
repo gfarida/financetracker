@@ -23,8 +23,8 @@ class User(Base):
     uid = Column(Integer, primary_key=True, doc="The primary key that uniquely identifies a user.")
     name = Column(String, nullable=False, doc="The name of the user, cannot be null.")
 
-    expenses = relationship("Expense", back_populates="user")
-    budgets = relationship("Budget", back_populates="user")
+    expenses = relationship("Expense", back_populates="user", doc="A list of Expense instances associated with the user.")
+    budgets = relationship("Budget", back_populates="user", doc="A list of Budget instances associated with the user.")
 
 
 class Expense(Base):
