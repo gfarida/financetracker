@@ -36,3 +36,9 @@
 
 ## Схема базы данных
 ![database](./database.png)
+
+## Построение документации
+```bash
+cd docs
+make html
+```

@@ -1,6 +1,12 @@
+"""
+This module sets up and runs a Telegram bot for financial management commands using
+the `python-telegram-bot` library. It handles starting the bot, adding and showing expenses,
+setting and deleting budgets, and providing financial analysis.
+
+Handlers for these commands are imported from separate modules.
+"""
 import logging
-from telegram import Update
-from telegram.ext import Application, CommandHandler, CallbackContext
+from telegram.ext import Application, CommandHandler
 from handlers.user_handler import start, show_help
 from handlers.expense_handler import add_expense, show_expenses, delete_expense
 from handlers.budget_handler import set_budget, delete_budget, show_budgets, financial_analysis
@@ -17,6 +23,20 @@ logger = logging.getLogger(__name__)
 
 
 def main():
+    """
+    Sets up the Telegram bot application with command handlers and starts polling for updates.
+
+    Command Handlers:
+        /start: Starts the bot and shows a welcome message.
+        /add: Adds an expense.
+        /show: Shows a list of expenses.
+        /set_budget: Sets a budget.
+        /delete: Deletes an expense.
+        /delete_budget: Deletes a budget.
+        /show_budgets: Shows a list of budgets.
+        /analysis: Provides financial analysis.
+        /help: Shows the help message with command descriptions.
+    """
     application = Application.builder().token(TELEGRAM_BOT_TOKEN).build()
 
     application.add_handler(CommandHandler("start", start))
