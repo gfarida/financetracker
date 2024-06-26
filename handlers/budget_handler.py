@@ -41,7 +41,7 @@ async def set_budget(update: Update, context: CallbackContext) -> None:
         user = session.query(User).filter(User.uid == user_id).first()
 
         if not user:
-            await update.message.reply_text('Сначала зарегистрируйтесь с помощью команды /start.')
+            await update.message.reply_text('Please register first using the /start command.')
             return
 
         budget = session.query(Budget).filter_by(uid=user.uid, category=category).first()
@@ -52,9 +52,9 @@ async def set_budget(update: Update, context: CallbackContext) -> None:
             session.add(budget)
 
         session.commit()
-        await update.message.reply_text(f'Установлен бюджет: {amount} для категории {category}')
+        await update.message.reply_text('Budget set: {} for category {}'.format(amount, category))
     except (IndexError, ValueError):
-        await update.message.reply_text('Использование: /set_budget <категория> <сумма>')
+        await update.message.reply_text('Usage: /set_budget <category> <amount>')
 
 
 async def delete_budget(update: Update, context: CallbackContext) -> None:
@@ -71,7 +71,7 @@ async def delete_budget(update: Update, context: CallbackContext) -> None:
     try:
         args = context.args
         if len(args) < 1:
-            await update.message.reply_text('Использование: /delete_budget <категория>')
+            await update.message.reply_text('Usage: /delete_budget <category>')
             return
 
         category = args[0]
@@ -81,12 +81,12 @@ async def delete_budget(update: Update, context: CallbackContext) -> None:
         if budget:
             session.delete(budget)
             session.commit()
-            await update.message.reply_text(f'Бюджет для категории {category} удален! Бюджет установлен в бесконечность.')
+            await update.message.reply_text('Budget for category {} deleted! Budget set to infinity.'.format(category))
         else:
-            await update.message.reply_text(f'Бюджет для категории {category} не найден.')
+            await update.message.reply_text('Budget for category {} not found.'.format(category))
     except Exception as e:  # pylint: disable=broad-except,invalid-name
         print(e)
-        await update.message.reply_text('Произошла ошибка при удалении бюджета.')
+        await update.message.reply_text('An error occurred while deleting the budget.')
 
 
 async def show_budgets(update: Update, context: CallbackContext) -> None:
@@ -105,23 +105,23 @@ async def show_budgets(update: Update, context: CallbackContext) -> None:
 
         user = session.query(User).filter(User.uid == user_id).first()
         if not user:
-            await update.message.reply_text('Сначала зарегистрируйтесь с помощью команды /start.')
+            await update.message.reply_text('Please register first using the /start command.')
             return
 
         budgets = session.query(Budget).filter_by(uid=user_id).all()
         if not budgets:
-            await update.message.reply_text('У вас нет установленных бюджетов.')
+            await update.message.reply_text('You have no set budgets.')
             return
 
-        response = "Ваши установленные бюджеты:\n"
+        response = "Your set budgets:\n"
         for budget in budgets:
             total_spent = session.query(func.sum(Expense.amount)).filter_by(uid=user_id, category=budget.category).scalar() or 0
-            response += f"Категория: *{budget.category}* - Бюджет: *{budget.amount}.* Израсходовано: *{total_spent / budget.amount * 100:.2f}% * ({total_spent} / {budget.amount})\n"
+            response += "Category: *{}* - Budget: *{}.* Spent: *{:.2f}% * ({} / {})\n".format(budget.category, budget.amount, total_spent / budget.amount * 100, total_spent, budget.amount)
 
         await update.message.reply_text(response, parse_mode='Markdown')
     except Exception as e:  # pylint: disable=broad-except,invalid-name
         print(e)
-        await update.message.reply_text('Произошла ошибка при получении бюджетов.')
+        await update.message.reply_text('An error occurred while retrieving budgets.')
 
 
 async def financial_analysis(update: Update, context: CallbackContext) -> None:
@@ -165,11 +165,11 @@ async def financial_analysis(update: Update, context: CallbackContext) -> None:
         }
 
         if total_expenses == 0:
-            await context.bot.send_message(chat_id=update.effective_chat.id, text="За текущий период расходов нет")
+            await context.bot.send_message(chat_id=update.effective_chat.id, text="There are no expenses for the current period")
             return
-        response = f"Финансовый анализ с *{start_date_str} {start_time_str}* по *{end_date_str} {end_time_str}*:\n"
-        response += f"*Общие расходы*: {total_expenses}\n\n"
-        response += "Расходы по категориям:\n"
+        response = "Financial analysis from *{} {}* to *{} {}*:\n".format(start_date_str, start_time_str, end_date_str, end_time_str)
+        response += "*Total expenses*: {}\n\n".format(total_expenses)
+        response += "Expenses by category:\n"
         for category, amount in category_expenses.items():
             response += f"*{category}*: {amount}\n"
 
@@ -179,7 +179,7 @@ async def financial_analysis(update: Update, context: CallbackContext) -> None:
         fig = go.Figure(data=[go.Pie(labels=labels, values=sizes, textinfo='label+percent',
                                     texttemplate='%{label} (%{percent:.2%})', insidetextorientation='radial', hole=.3)])
 
-        fig.update_layout(title_text='Расходы по категориям')
+        fig.update_layout(title_text='Expenses by category')
         pie_chart_path = 'pie_chart.png'
         fig.write_image(pie_chart_path, scale=1.5)
 
@@ -190,8 +190,8 @@ async def financial_analysis(update: Update, context: CallbackContext) -> None:
 
     except IndexError:
         await context.bot.send_message(chat_id=update.effective_chat.id,
-                                       text='Пожалуйста, используйте формат: /financial_analysis <start_date> <start_time> <end_date> <end_time>. Формат даты и времени: YYYY-MM-DD HH:MM:SS')
+                                       text='Please use the format: /financial_analysis <start_date> <start_time> <end_date> <end_time>. Date and time format: YYYY-MM-DD HH:MM:SS')
     except Exception as e:  # pylint: disable=broad-except,invalid-name
         print(e)
         await context.bot.send_message(chat_id=update.effective_chat.id,
-                                       text='Произошла ошибка при выполнении анализа.')
+                                       text='An error occurred during the analysis.')
