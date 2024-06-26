@@ -44,3 +44,17 @@ sphinx-apidoc -o ./source ../
 make html
 ```
 После этого в браузере можно открыть `docs/build/index.html`
+
+## Запуск unit тестирования
+```bash
+python3 -m unittest discover tests -v
+```
+
+## Создание отчета о покрытии кода
+```bash
+pip install coverage
+python3 -m unittest discover tests -v
+coverage report -m
+coverage html
+```
+
