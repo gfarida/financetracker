@@ -42,3 +42,16 @@
 cd docs
 make html
 ```
+
+## Запуск unit тестирования
+```bash
+python3 -m unittest discover tests -v
+```
+
+## Создание отчета о покрытии кода
+```bash
+pip install coverage
+python3 -m unittest discover tests -v
+coverage report -m
+coverage html
+```
