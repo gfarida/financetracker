@@ -40,5 +40,7 @@
 ## Построение документации
 ```bash
 cd docs
+sphinx-apidoc -o ./source ../ 
 make html
 ```
+После этого в браузере можно открыть `docs/build/index.html`

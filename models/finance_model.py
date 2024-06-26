@@ -13,48 +13,31 @@ from sqlalchemy import create_engine, Column, Integer, String, Float, DateTime, 
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 
-
 Base = declarative_base()
-
 
 class User(Base):
     """
     Represents a user in the system with related expenses and budgets.
-
-    Attributes:
-        uid (int): The primary key that uniquely identifies a user.
-        name (str): The name of the user, cannot be null.
-        expenses (relationship): A list of Expense instances associated with the user.
-        budgets (relationship): A list of Budget instances associated with the user.
     """
     __tablename__ = 'users'
-    uid = Column(Integer, primary_key=True)
-    name = Column(String, nullable=False)
+    uid = Column(Integer, primary_key=True, doc="The primary key that uniquely identifies a user.")
+    name = Column(String, nullable=False, doc="The name of the user, cannot be null.")
 
-    expenses = relationship("Expense", back_populates="user")
-    budgets = relationship("Budget", back_populates="user")
+    expenses = relationship("Expense", back_populates="user", doc="A list of Expense instances associated with the user.")
+    budgets = relationship("Budget", back_populates="user", doc="A list of Budget instances associated with the user.")
 
 
 class Expense(Base):
     """
     Represents an expense record in the system associated with a user.
-
-    Attributes:
-        eid (int): The primary key that uniquely identifies an expense.
-        uid (int): The foreign key linked to the user who made the expense.
-        name (str): The name or description of the expense.
-        category (str): The category of the expense.
-        amount (float): The amount of money spent on the expense.
-        date (DateTime): The date and time when the expense was recorded.
-        user (relationship): The User instance this expense is associated with.
     """
     __tablename__ = 'expenses'
-    eid = Column(Integer, primary_key=True)
-    uid = Column(Integer, ForeignKey('users.uid'))
-    name = Column(String)
-    category = Column(String)
-    amount = Column(Float)
-    date = Column(DateTime)
+    eid = Column(Integer, primary_key=True, doc="The primary key that uniquely identifies an expense.")
+    uid = Column(Integer, ForeignKey('users.uid'), doc="The foreign key linked to the user who made the expense.")
+    name = Column(String, doc="The name or description of the expense.")
+    category = Column(String, doc="The category of the expense.")
+    amount = Column(Float, doc="The amount of money spent on the expense.")
+    date = Column(DateTime, doc="The date and time when the expense was recorded.")
 
     user = relationship("User", back_populates="expenses")
 
@@ -62,22 +45,14 @@ class Expense(Base):
 class Budget(Base):
     """
     Represents a budget set by a user for a particular category.
-
-    Attributes:
-        bid (int): The primary key that uniquely identifies the budget.
-        uid (int): The foreign key linked to the user who set the budget.
-        category (str): The category for which the budget is set.
-        amount (float): The budget amount.
-        user (relationship): The User instance this budget is associated with.
     """
     __tablename__ = 'budgets'
-    bid = Column(Integer, primary_key=True)
-    uid = Column(Integer, ForeignKey('users.uid'))
-    category = Column(String)
-    amount = Column(Float)
+    bid = Column(Integer, primary_key=True, doc="The primary key that uniquely identifies the budget.")
+    uid = Column(Integer, ForeignKey('users.uid'), doc="The foreign key linked to the user who set the budget.")
+    category = Column(String, doc="The category for which the budget is set.")
+    amount = Column(Float, doc="The budget amount.")
 
     user = relationship("User", back_populates="budgets")
-
 
 engine = create_engine('sqlite:///finance_tracker.db')
 Base.metadata.create_all(engine)
