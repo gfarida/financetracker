@@ -37,7 +37,7 @@ async def set_budget(update: Update, context: CallbackContext) -> None:
         args = context.args
         category = args[0]
         amount = float(args[1])
-        user_id = update.effective_user.id  # Получаем ID пользователя
+        user_id = update.effective_user.id  # Get user ID
         user = session.query(User).filter(User.uid == user_id).first()
 
         if not user:

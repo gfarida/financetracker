@@ -62,7 +62,7 @@ async def add_expense(update: Update, context: CallbackContext) -> None:
         session.add(new_expense)
         session.commit()
 
-        # Проверка бюджета
+        # Budget check
         budget = session.query(Budget).filter_by(uid=user.uid, category=category).first()
         if not budget:
             budget = Budget(uid=user.uid, category=category, amount=float('inf'))
