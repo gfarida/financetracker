@@ -15,8 +15,9 @@ from telegram import Update
 from telegram.ext import CallbackContext
 
 from models.finance_model import Expense, User, session, Budget
-from utils.openai_util import classify_expense
+from utils.openai_util import OpenAI
 
+openai_client = OpenAI()
 
 async def add_expense(update: Update, context: CallbackContext) -> None:
     """
@@ -50,7 +51,7 @@ async def add_expense(update: Update, context: CallbackContext) -> None:
         user_id = update.effective_user.id
         amount = float(args[0])
         description = ' '.join(args[1:])
-        category = classify_expense(description)
+        category = openai_client.classify_expense(description)
         date = datetime.datetime.now()
 
         user = session.query(User).filter(User.uid == user_id).first()
