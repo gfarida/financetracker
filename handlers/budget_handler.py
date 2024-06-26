@@ -16,7 +16,6 @@ import datetime
 from telegram import Update
 from telegram.ext import CallbackContext
 from sqlalchemy import func
-import datetime
 import plotly.graph_objects as go
 
 
