@@ -59,13 +59,16 @@ class OpenAI:
             "Please do not add punctuation or any other signs to your response."
         ).format(description, ', '.join(expense_categories))
 
-        response = self.client.completions.create(
-            model="gpt-3.5-turbo-instruct",
-            prompt=prompt,
-            max_tokens=20,
-        )
+        try:
+            response = self.client.completions.create(
+                model="gpt-3.5-turbo-instruct",
+                prompt=prompt,
+                max_tokens=20,
+            )
 
-        resp = response.choices[0].text.strip()
+            resp = response.choices[0].text.strip()
+        except Exception:  # pylint: disable=broad-except,invalid-name
+            resp = _("Other")
 
         if resp not in expense_categories:
             resp = _("Other")
