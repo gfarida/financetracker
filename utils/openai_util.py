@@ -59,18 +59,10 @@ class OpenAI:
             "Please do not add punctuation or any other signs to your response."
         ).format(description, ', '.join(expense_categories))
 
-        # response = self.client.chat.completions.create(
-        #     model="gpt-3.5-turbo",
-        #     messages=[{"role": "user", "content": prompt}],
-        #     max_tokens=20,
-        # )
-
-        # resp = response.choices[0].message.content.strip()
-
         response = self.client.completions.create(
             model="gpt-3.5-turbo-instruct",
             prompt=prompt,
-            max_tokens=5,
+            max_tokens=20,
         )
 
         resp = response.choices[0].text.strip()
