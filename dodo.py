@@ -64,6 +64,6 @@ def task_wheel():
 
 def task_sdist():
     return {
-        'actions': ['pyproject-build -n -s'],
+        'actions': ['python3 -m build -n -s'],
         'task_dep': ['git_clean'],
     }
