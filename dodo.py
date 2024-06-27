@@ -62,3 +62,10 @@ def task_wheel():
         'actions': ['python3 -m build -w'],
         'verbosity': 2,
     }
+
+def task_sdist():
+    """Create source distribution."""
+    return {
+            'actions': ['python -m build -s -n'],
+            'task_dep': ['git_clean'],
+           }

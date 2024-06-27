@@ -1,0 +1,6 @@
+graft financetracker_bot
+include pyproject.toml
+include dodo.py 
+include README.md
+recursive-include tests *
+recursive-include docs * 
