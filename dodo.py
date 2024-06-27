@@ -22,8 +22,15 @@ def task_git_clean():
 
 def task_html():
     """Build HTML documentation."""
+    def build_html():
+        os.chdir('docs')
+        os.system(f'{SPHINXBUILD} -b html {SOURCEDIR} {BUILDDIR}/html')
+        os.chdir('..')  # Change back to the original directory
+
     return {
-        'actions': ['cd docs', f'{SPHINXBUILD} -b html {SOURCEDIR} {BUILDDIR}/html'],
+        'actions': [build_html],
+        'targets': [os.path.join('docs', BUILDDIR, 'html')],
+        'clean': True,
         'verbosity': 2,
     }
 
@@ -31,13 +38,20 @@ def task_build():
     """Alias for building HTML documentation."""
     return {'actions': None, 'task_dep': ['html']}
 
+def task_build():
+    """Alias for building HTML documentation."""
+    return {'actions': None, 'task_dep': ['html']}
+
 def task_coverage():
     """Run tests and generate coverage report."""
+    def run_coverage():
+        os.system('coverage run -m unittest discover tests -v')
+        os.system('coverage report -m')
+        os.system('coverage html')
+
     return {
-        'actions': [
-            'coverage run -m unittest discover tests -v',
-            'coverage report -m',
-            'coverage html'
-        ],
+        'actions': [run_coverage],
+        'targets': [COVERAGE_DIR],
+        'clean': True,
         'verbosity': 2,
     }
