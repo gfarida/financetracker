@@ -1,5 +1,5 @@
 [MESSAGES CONTROL]
-disable=unused-argument,line-too-long,too-few-public-methods,too-many-locals
+disable=unused-argument,line-too-long,too-few-public-methods,too-many-locals,duplicate-code
 
 [MASTER]
 good-names=ax

@@ -1,0 +1,11 @@
+*.egg-info
+build
+dist
+.doit*
+Pipfile.lock
+*.mo
+*~
+*.bak
+*.swp
+__pycache__
+*.pot

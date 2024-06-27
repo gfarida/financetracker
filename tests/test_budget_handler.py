@@ -2,9 +2,9 @@ import unittest
 from unittest.mock import AsyncMock, patch
 from telegram import Update, User as TelegramUser, Message, Chat
 from telegram.ext import CallbackContext
-from models.finance_model import Budget, Expense, User, session
-from handlers.budget_handler import set_budget, delete_budget, show_budgets
-from handlers.expense_handler import add_expense
+from financetracker_bot.models.finance_model import Budget, Expense, User, session
+from financetracker_bot.handlers.budget_handler import set_budget, delete_budget, show_budgets
+from financetracker_bot.handlers.expense_handler import add_expense
 import datetime
 import logging
 
@@ -70,7 +70,7 @@ class TestBudgetHandler(unittest.IsolatedAsyncioTestCase):
         mock_reply_text.assert_called_with('Budget for category Dining deleted! Budget set to infinity.')
 
     @patch('telegram.Message.reply_text', new_callable=AsyncMock)
-    @patch('handlers.expense_handler.add_expense', new_callable=AsyncMock)
+    @patch('financetracker_bot.handlers.expense_handler.add_expense', new_callable=AsyncMock)
     async def test_show_budgets(self, mock_add_expense, mock_reply_text):
         budget = Budget(uid=123, category="Dining", amount=500)
         session.add(budget)

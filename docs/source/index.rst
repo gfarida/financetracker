@@ -31,10 +31,10 @@ This bot is designed to offer a seamless and intuitive experience for personal f
    :maxdepth: 2
    :caption: Contents:
 
-   handlers
-   main
+   financetracker_bot.handlers
+   financetracker_bot.models
    modules
-   utils
+   financetracker_bot.utils
 
 Indices and tables
 ==================

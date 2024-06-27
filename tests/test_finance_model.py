@@ -1,5 +1,5 @@
 import unittest
-from models.finance_model import User, Expense, Budget, session
+from financetracker_bot.models.finance_model import User, Expense, Budget, session
 import datetime
 
 class TestFinanceModel(unittest.TestCase):

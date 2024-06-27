@@ -2,8 +2,8 @@ import unittest
 from unittest.mock import AsyncMock, patch
 from telegram import Update, User as TelegramUser, Message, Chat
 from telegram.ext import CallbackContext
-from models.finance_model import User, session
-from handlers.user_handler import start, show_help
+from financetracker_bot.models.finance_model import User, session
+from financetracker_bot.handlers.user_handler import start, show_help
 import datetime
 
 class TestUserHandler(unittest.IsolatedAsyncioTestCase):

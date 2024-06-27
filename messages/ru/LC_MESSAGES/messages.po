@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2024-06-27 13:00+0300\n"
+"POT-Creation-Date: 2024-06-27 17:20+0300\n"
 "PO-Revision-Date: 2024-06-27 02:51+0300\n"
 "Last-Translator: Arseniy Litvinov <filashkov@ispras.ru>\n"
 "Language: ru\n"
@@ -19,56 +19,58 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.14.0\n"
 
-#: handlers/budget_handler.py:45 handlers/budget_handler.py:109
-#: handlers/expense_handler.py:60 handlers/expense_handler.py:107
+#: financetracker_bot/handlers/budget_handler.py:45
+#: financetracker_bot/handlers/budget_handler.py:109
+#: financetracker_bot/handlers/expense_handler.py:60
+#: financetracker_bot/handlers/expense_handler.py:107
 msgid "Please register first using the /start command."
 msgstr "Сначала зарегистрируйтесь с помощью команды /start."
 
-#: handlers/budget_handler.py:56
+#: financetracker_bot/handlers/budget_handler.py:56
 msgid "Budget set: {} for category {}"
 msgstr "Установлен бюджет: {} для категории {}"
 
-#: handlers/budget_handler.py:58
+#: financetracker_bot/handlers/budget_handler.py:58
 msgid "Usage: /set_budget <category> <amount>"
 msgstr "Использование: /set_budget <категория> <сумма>"
 
-#: handlers/budget_handler.py:75
+#: financetracker_bot/handlers/budget_handler.py:75
 msgid "Usage: /delete_budget <category>"
 msgstr "Использование: /delete_budget <категория>"
 
-#: handlers/budget_handler.py:85
+#: financetracker_bot/handlers/budget_handler.py:85
 msgid "Budget for category {} deleted! Budget set to infinity."
 msgstr "Бюджет для категории {} удален! Бюджет установлен в бесконечность."
 
-#: handlers/budget_handler.py:87
+#: financetracker_bot/handlers/budget_handler.py:87
 msgid "Budget for category {} not found."
 msgstr "Бюджет для категории {} не найден."
 
-#: handlers/budget_handler.py:90
+#: financetracker_bot/handlers/budget_handler.py:90
 msgid "An error occurred while deleting the budget."
 msgstr "Произошла ошибка при удалении бюджета."
 
-#: handlers/budget_handler.py:114
+#: financetracker_bot/handlers/budget_handler.py:114
 msgid "You have no set budgets."
 msgstr "У вас нет установленных бюджетов."
 
-#: handlers/budget_handler.py:120
+#: financetracker_bot/handlers/budget_handler.py:120
 msgid "Category: *{}* - Budget: *{}.* Spent: *{:.2f}% * ({} / {})\n"
 msgstr "Категория: *{}* - Бюджет: *{}.* Израсходовано: *{:.2f}% * ({} / {})\n"
 
-#: handlers/budget_handler.py:125
+#: financetracker_bot/handlers/budget_handler.py:125
 msgid "An error occurred while retrieving budgets."
 msgstr "Произошла ошибка при получении бюджетов."
 
-#: handlers/budget_handler.py:169
+#: financetracker_bot/handlers/budget_handler.py:169
 msgid "There are no expenses for the current period"
 msgstr "За текущий период расходов нет"
 
-#: handlers/budget_handler.py:171
+#: financetracker_bot/handlers/budget_handler.py:171
 msgid "Financial analysis from *{} {}* to *{} {}*:\n"
 msgstr "Финансовый анализ с *{} {}* по *{} {}*:\n"
 
-#: handlers/budget_handler.py:172
+#: financetracker_bot/handlers/budget_handler.py:172
 msgid ""
 "*Total expenses*: {}\n"
 "\n"
@@ -76,15 +78,15 @@ msgstr ""
 "*Общие расходы*: {}\n"
 "\n"
 
-#: handlers/budget_handler.py:173
+#: financetracker_bot/handlers/budget_handler.py:173
 msgid "Expenses by category:\n"
 msgstr "Расходы по категориям:\n"
 
-#: handlers/budget_handler.py:183
+#: financetracker_bot/handlers/budget_handler.py:183
 msgid "Expenses by category"
 msgstr "Расходы по категориям"
 
-#: handlers/budget_handler.py:194
+#: financetracker_bot/handlers/budget_handler.py:194
 msgid ""
 "Please use the format: /financial_analysis <start_date> <start_time> "
 "<end_date> <end_time>. Date and time format: YYYY-MM-DD HH:MM:SS"
@@ -93,15 +95,16 @@ msgstr ""
 "<start_time> <end_date> <end_time>. Формат даты и времени: ГГГГ-ММ-ДД "
 "ЧЧ:ММ:СС"
 
-#: handlers/budget_handler.py:198
+#: financetracker_bot/handlers/budget_handler.py:198
 msgid "An error occurred during the analysis."
 msgstr "Произошла ошибка при выполнении анализа."
 
-#: handlers/expense_handler.py:47 handlers/expense_handler.py:82
+#: financetracker_bot/handlers/expense_handler.py:47
+#: financetracker_bot/handlers/expense_handler.py:82
 msgid "Please use the format: /add <amount> <description>"
 msgstr "Пожалуйста, используйте формат: /add <сумма> <описание>"
 
-#: handlers/expense_handler.py:76
+#: financetracker_bot/handlers/expense_handler.py:76
 msgid ""
 "Attention! Budget for category *{}* exceeded! Set budget: *{}*, current "
 "budget: *{}*"
@@ -109,7 +112,7 @@ msgstr ""
 "Внимание! Бюджет для категории *{}* превышен! Установленный бюджет: *{}*,"
 " текущий бюджет: *{}*"
 
-#: handlers/expense_handler.py:78
+#: financetracker_bot/handlers/expense_handler.py:78
 msgid ""
 "Expense added: {} for {} in category *{}* \n"
 "You have spent *{:.2f}% ({}/{})* of the budget allocated for category *{}*"
@@ -117,15 +120,15 @@ msgstr ""
 "Трата добавлена: {} на {} в категорию *{}* \n"
 "Вы израсходовали *{:.2f}% ({}/{})* бюджета, выделенного на категорию *{}*"
 
-#: handlers/expense_handler.py:112
+#: financetracker_bot/handlers/expense_handler.py:112
 msgid "You have no expenses yet."
 msgstr "У вас пока нет трат."
 
-#: handlers/expense_handler.py:114
+#: financetracker_bot/handlers/expense_handler.py:114
 msgid "Date: *{}*, expense: *{}*, category: *{}*, ID: *{}*"
 msgstr "Дата: *{}*, трата: *{}*, категория: *{}*, ID: *{}*"
 
-#: handlers/expense_handler.py:115
+#: financetracker_bot/handlers/expense_handler.py:115
 msgid ""
 "Your expenses:\n"
 "{}"
@@ -133,31 +136,31 @@ msgstr ""
 "Ваши траты:\n"
 "{}"
 
-#: handlers/expense_handler.py:118
+#: financetracker_bot/handlers/expense_handler.py:118
 msgid "An error occurred while displaying expenses."
 msgstr "Произошла ошибка при отображении трат."
 
-#: handlers/expense_handler.py:143
+#: financetracker_bot/handlers/expense_handler.py:143
 msgid "Please use the format: /delete <expense ID>"
 msgstr "Пожалуйста, используйте формат: /delete <id траты>"
 
-#: handlers/expense_handler.py:149
+#: financetracker_bot/handlers/expense_handler.py:149
 msgid "Please enter a valid expense ID."
 msgstr "Пожалуйста, введите правильный ID траты."
 
-#: handlers/expense_handler.py:154
+#: financetracker_bot/handlers/expense_handler.py:154
 msgid "User not found."
 msgstr "Пользователь не найден."
 
-#: handlers/expense_handler.py:159
+#: financetracker_bot/handlers/expense_handler.py:159
 msgid "Expense not found."
 msgstr "Трата не найдена."
 
-#: handlers/expense_handler.py:164
+#: financetracker_bot/handlers/expense_handler.py:164
 msgid "Expense with ID {} successfully deleted!"
 msgstr "Трата с ID {} успешно удалена!"
 
-#: handlers/user_handler.py:18
+#: financetracker_bot/handlers/user_handler.py:18
 msgid ""
 "Available commands:\n"
 "/start - Register\n"
@@ -183,55 +186,57 @@ msgstr ""
 "времени: ГГГГ-ММ-ДД ЧЧ:ММ:СС\n"
 "/help - Показать это сообщение\n"
 
-#: handlers/user_handler.py:61
+#: financetracker_bot/handlers/user_handler.py:61
 msgid "Hello! I am a finance management bot. You have successfully registered.\n"
 msgstr "Привет! Я бот для управления финансами. Вы успешно зарегистрированы.\n"
 
-#: handlers/user_handler.py:64
+#: financetracker_bot/handlers/user_handler.py:64
 msgid "Hello! You are already registered.\n"
 msgstr "Привет! Вы уже зарегистрированы.\n"
 
-#: utils/openai_util.py:42
+#: financetracker_bot/utils/openai_util.py:42
 msgid "Groceries"
 msgstr "Продукты"
 
-#: utils/openai_util.py:43
+#: financetracker_bot/utils/openai_util.py:43
 msgid "Rent"
 msgstr "Аренда"
 
-#: utils/openai_util.py:44
+#: financetracker_bot/utils/openai_util.py:44
 msgid "Utilities"
 msgstr "Коммунальные услуги"
 
-#: utils/openai_util.py:45
+#: financetracker_bot/utils/openai_util.py:45
 msgid "Transportation"
 msgstr "Транспорт"
 
-#: utils/openai_util.py:46
+#: financetracker_bot/utils/openai_util.py:46
 msgid "Dining"
 msgstr "Питание"
 
-#: utils/openai_util.py:47
+#: financetracker_bot/utils/openai_util.py:47
 msgid "Entertainment"
 msgstr "Развлечения"
 
-#: utils/openai_util.py:48
+#: financetracker_bot/utils/openai_util.py:48
 msgid "Health"
 msgstr "Здоровье"
 
-#: utils/openai_util.py:49
+#: financetracker_bot/utils/openai_util.py:49
 msgid "Education"
 msgstr "Образование"
 
-#: utils/openai_util.py:50
+#: financetracker_bot/utils/openai_util.py:50
 msgid "Clothing"
 msgstr "Одежда"
 
-#: utils/openai_util.py:51 utils/openai_util.py:71
+#: financetracker_bot/utils/openai_util.py:51
+#: financetracker_bot/utils/openai_util.py:71
+#: financetracker_bot/utils/openai_util.py:74
 msgid "Other"
 msgstr "Другое"
 
-#: utils/openai_util.py:54
+#: financetracker_bot/utils/openai_util.py:54
 msgid ""
 "Which of the following categories does the expense '{}' belong to? {}. "
 "User may answer in any language. Answer with one word - the name of the "

@@ -1,10 +1,10 @@
 import unittest
 from unittest.mock import patch, MagicMock
-from utils.openai_util import OpenAI
+from financetracker_bot.utils.openai_util import OpenAI
 
 class TestClassifyExpense(unittest.TestCase):
 
-    @patch('utils.openai_util.OriginalOpenAI')
+    @patch('financetracker_bot.utils.openai_util.OriginalOpenAI')
     def test_classify_expense_groceries(self, MockOpenAI):
         mock_response = MagicMock()
         mock_response.choices = [MagicMock(text='Groceries')]
@@ -15,7 +15,7 @@ class TestClassifyExpense(unittest.TestCase):
         result = openai.classify_expense(description)
         self.assertEqual(result, "Groceries")
 
-    @patch('utils.openai_util.OriginalOpenAI')
+    @patch('financetracker_bot.utils.openai_util.OriginalOpenAI')
     def test_classify_expense_other(self, MockOpenAI):
         mock_response = MagicMock()
         mock_response.choices = [MagicMock(text='Something')]
