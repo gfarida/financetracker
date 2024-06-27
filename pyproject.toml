@@ -34,4 +34,4 @@ build-backend = "setuptools.build_meta"
 finance_tracker = "financetracker_bot"
 
 [tool.setuptools.package-data]
-finance_tracker = ["../docs/*"]
+finance_tracker = ["../docs/*", "*/*/*/*.mo"]
