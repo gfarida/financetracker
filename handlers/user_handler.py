@@ -12,19 +12,21 @@ from telegram.ext import CallbackContext
 
 from models.finance_model import User, session
 
+from utils.translation import _
 
-HELP_TEXT = (
-    "Доступные команды:\n"
-    "/start - Зарегистрироваться\n"
-    "/add <сумма> <описание> - Добавить трату\n"
-    "/set_budget <категория> <сумма> - Установить бюджет для категории\n"
-    "/delete_budget <категория> - Удалить установленный бюджет для категории\n"
-    "/show_budgets - Показать все установленные бюджеты\n"
-    "/show - Показать все добавленные траты\n"
-    "/remove_expense <id> - Удалить трату по ID\n"
+
+HELP_TEXT = _(
+    "Available commands:\n"
+    "/start - Register\n"
+    "/add <amount> <description> - Add an expense\n"
+    "/set_budget <category> <amount> - Set a budget for a category\n"
+    "/delete_budget <category> - Delete the set budget for a category\n"
+    "/show_budgets - Show all set budgets\n"
+    "/show - Show all added expenses\n"
+    "/delete <id> - Delete an expense by ID\n"
     "/analysis <start_date> <start_time> <end_date> <end_time>. "
-    "Формат даты и времени: YYYY-MM-DD HH:MM:SS\n"
-    "/help - Показать это сообщение\n"
+    "Date and time format: YYYY-MM-DD HH:MM:SS\n"
+    "/help - Show this message\n"
 )
 
 
@@ -56,10 +58,10 @@ async def start(update: Update, context: CallbackContext) -> None:
         session.add(new_user)
         session.commit()
         welcome_message = (
-            "Привет! Я бот для управления финансами. Вы успешно зарегистрированы.\n"
+            _("Hello! I am a finance management bot. You have successfully registered.\n")
         )
     else:
-        welcome_message = "Привет! Вы уже зарегистрированы.\n"
+        welcome_message = _("Hello! You are already registered.\n")
 
     welcome_message += HELP_TEXT
     await update.message.reply_text(welcome_message)

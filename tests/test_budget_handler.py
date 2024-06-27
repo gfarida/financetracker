@@ -50,7 +50,7 @@ class TestBudgetHandler(unittest.IsolatedAsyncioTestCase):
         self.assertIsNotNone(budget)
         self.assertEqual(budget.amount, 500.0)
 
-        mock_reply_text.assert_called_with('Установлен бюджет: 500.0 для категории Dining')
+        mock_reply_text.assert_called_with('Budget set: 500.0 for category Dining')
 
     @patch('telegram.Message.reply_text', new_callable=AsyncMock)
     async def test_delete_budget(self, mock_reply_text):
@@ -67,7 +67,7 @@ class TestBudgetHandler(unittest.IsolatedAsyncioTestCase):
         budget = session.query(Budget).filter_by(uid=123, category="Dining").first()
         self.assertIsNone(budget)
 
-        mock_reply_text.assert_called_with('Бюджет для категории Dining удален! Бюджет установлен в бесконечность.')
+        mock_reply_text.assert_called_with('Budget for category Dining deleted! Budget set to infinity.')
 
     @patch('telegram.Message.reply_text', new_callable=AsyncMock)
     @patch('handlers.expense_handler.add_expense', new_callable=AsyncMock)
@@ -88,9 +88,10 @@ class TestBudgetHandler(unittest.IsolatedAsyncioTestCase):
         await show_budgets(update_show, context_show)
 
         expected_message = (
-            f"Категория: *Dining* - Бюджет: *500.0.* Израсходовано: *20.00% * (100.0 / 500.0)\n"
+            f"Category: *Dining* - Budget: *500.0.* Spent: *20.00% * (100.0 / 500.0)\n"
         )
-        mock_reply_text.assert_called_with(f'Ваши установленные бюджеты:\n{expected_message}', parse_mode='Markdown')
+        mock_reply_text.assert_called_with(f'Your set budgets:\n{expected_message}', parse_mode='Markdown')
+
 
 if __name__ == 'main':
     unittest.main()
