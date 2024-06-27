@@ -62,10 +62,11 @@ class TestExpenseHandler(unittest.IsolatedAsyncioTestCase):
         await show_expenses(update, context)
 
         expected_message = (
-            f"Дата: *{expense1.date.strftime('%Y-%m-%d %H:%M:%S')}*, трата: *{expense1.amount}*, категория: *{expense1.category}*, ID: *{expense1.eid}*\n"
-            f"Дата: *{expense2.date.strftime('%Y-%m-%d %H:%M:%S')}*, трата: *{expense2.amount}*, категория: *{expense2.category}*, ID: *{expense2.eid}*"
+            f"Date: *{expense1.date.strftime('%Y-%m-%d %H:%M:%S')}*, expense: *{expense1.amount}*, category: *{expense1.category}*, ID: *{expense1.eid}*\n"
+            f"Date: *{expense2.date.strftime('%Y-%m-%d %H:%M:%S')}*, expense: *{expense2.amount}*, category: *{expense2.category}*, ID: *{expense2.eid}*"
         )
-        mock_reply_text.assert_called_with(f'Ваши траты:\n{expected_message}', parse_mode='Markdown')
+
+        mock_reply_text.assert_called_with(f'Your expenses:\n{expected_message}', parse_mode='Markdown')
 
     @patch('telegram.Message.reply_text', new_callable=AsyncMock)
     async def test_delete_expense(self, mock_reply_text):
@@ -82,7 +83,7 @@ class TestExpenseHandler(unittest.IsolatedAsyncioTestCase):
 
         deleted_expense = session.query(Expense).filter_by(eid=1).first()
         self.assertIsNone(deleted_expense)
-        mock_reply_text.assert_called_with("Трата с ID 1 успешно удалена!")
+        mock_reply_text.assert_called_with("Expense with ID 1 successfully deleted!")
 
 
 if __name__ == 'main':

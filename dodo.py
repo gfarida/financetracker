@@ -1,10 +1,14 @@
 import os
+import glob
 import shutil
 
-SPHINXBUILD = 'sphinx-build'
+
+SPHINXAPIDOC = 'sphinx-apidoc'
 SOURCEDIR = 'source'
 BUILDDIR = 'build'
 COVERAGE_DIR = 'htmlcov'
+PODEST = 'messages'
+
 
 def task_build_and_cov_clean():
     """Clean up the build directory and coverage files."""
@@ -23,7 +27,8 @@ def task_html():
     """Build HTML documentation."""
     def build_html():
         os.chdir('docs')
-        os.system(f'{SPHINXBUILD} -b html {SOURCEDIR} {BUILDDIR}/html')
+        os.system(f'{SPHINXAPIDOC} -o ./{SOURCEDIR} ../')
+        os.system('make html')
         os.chdir('..')  # Change back to the original directory
 
     return {
@@ -37,9 +42,47 @@ def task_build():
     """Alias for building HTML documentation."""
     return {'actions': None, 'task_dep': ['html']}
 
-def task_build():
-    """Alias for building HTML documentation."""
-    return {'actions': None, 'task_dep': ['html']}
+
+def task_pot():
+    """Re-create .pot files."""
+    return {
+        'actions': ['pybabel extract -o messages/messages.pot .'],
+        'file_dep': glob.glob('*.py'),
+        'targets': ['messages/messages.pot'],
+        'clean': True,
+    }
+
+def task_po():
+    """Update translations."""
+    return {
+        'actions': ['pybabel update -i messages/messages.pot -d messages'],
+        'file_dep': ['messages/messages.pot'],
+        'targets': ['messages/ru/LC_MESSAGES/messages.po'],
+    }
+
+def task_mo():
+    """Compile translations."""
+    def create_folder(folder):
+        os.makedirs(folder, exist_ok=True)
+
+    return {
+        'actions': [
+            (create_folder, [f'{PODEST}/ru/LC_MESSAGES']),
+            'pybabel compile -d messages'
+        ],
+        'file_dep': ['messages/ru/LC_MESSAGES/messages.po'],
+        'targets': [f'{PODEST}/ru/LC_MESSAGES/messages.mo'],
+        'clean': True,
+    }
+
+def task_translation():
+    """Extract, update, and compile translations."""
+    return {
+        'actions': None,
+        'task_dep': ['pot', 'po', 'mo'],
+        'verbosity': 2,
+    }
+
 
 def task_coverage():
     """Run tests and generate coverage report."""

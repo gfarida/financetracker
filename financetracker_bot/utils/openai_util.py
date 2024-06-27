@@ -1,11 +1,14 @@
 """
 This module provides functionality to classify expenses into predefined categories
-using OpenAI's GPT-3.5-turbo-instruct model. It utilizes the OpenAI API to analyze
+using OpenAI's GPT-3.5-turbo model. It utilizes the OpenAI API to analyze
 the description of an expense and determine the appropriate category.
 """
 
-from config.config import OPENAI_API_KEY
 from openai import OpenAI as OriginalOpenAI
+from config.config import OPENAI_API_KEY
+
+from utils.translation import _
+
 
 class OpenAI:
     """
@@ -36,34 +39,38 @@ class OpenAI:
                  cannot be determined, 'Other' is returned.
         """
         expense_categories = [
-            "Groceries",
-            "Rent",
-            "Utilities",
-            "Transportation",
-            "Dining",
-            "Entertainment",
-            "Health",
-            "Education",
-            "Clothing",
-            "Other",
+            _("Groceries"),
+            _("Rent"),
+            _("Utilities"),
+            _("Transportation"),
+            _("Dining"),
+            _("Entertainment"),
+            _("Health"),
+            _("Education"),
+            _("Clothing"),
+            _("Other"),
         ]
 
-        prompt = (
-            f"Which of the following categories does the expense '{description}' belong to? "
-            f"{', '.join(expense_categories)}. "
+        prompt = _(
+            "Which of the following categories does the expense '{}' belong to? "
+            "{}. "
             "User may answer in any language. Answer with one word - the name of the category "
-            "in English. If you don't know answer Other."
-        )
+            "in English. If you don't know answer Other. "
+            "Please do not add punctuation or any other signs to your response."
+        ).format(description, ', '.join(expense_categories))
 
-        response = self.client.completions.create(
-            model="gpt-3.5-turbo-instruct",
-            prompt=prompt,
-            max_tokens=5,
-        )
+        try:
+            response = self.client.completions.create(
+                model="gpt-3.5-turbo-instruct",
+                prompt=prompt,
+                max_tokens=20,
+            )
 
-        resp = response.choices[0].text.strip()
+            resp = response.choices[0].text.strip()
+        except Exception:  # pylint: disable=broad-except,invalid-name
+            resp = _("Other")
 
         if resp not in expense_categories:
-            resp = "Other"
+            resp = _("Other")
 
         return resp
