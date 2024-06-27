@@ -55,3 +55,10 @@ def task_coverage():
         'clean': True,
         'verbosity': 2,
     }
+
+def task_wheel():
+    """Build a wheel package."""
+    return {
+        'actions': ['python3 -m build -w'],
+        'verbosity': 2,
+    }
