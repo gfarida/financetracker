@@ -1,6 +1,5 @@
 import os
 import shutil
-import subprocess
 
 SPHINXBUILD = 'sphinx-build'
 SOURCEDIR = 'source'
@@ -64,8 +63,7 @@ def task_wheel():
     }
 
 def task_sdist():
-    """Create source distribution."""
     return {
-            'actions': ['python -m build -s -n'],
-            'task_dep': ['git_clean'],
-           }
+        'actions': ['pyproject-build -n -s'],
+        'task_dep': ['git_clean'],
+    }

@@ -4,15 +4,12 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-pyfiglet = "*"
 
 [dev-packages]
+babel = "*"
 doit = "*"
-flake8 = "*"
-pydocstyle = "*"
-sphinx = "*"
-coverage = "*"
 build = "*"
 setuptools = "*"
-
-[requires]
+pyfiglet = "*"
+pydocstyle = "*"
+flake8 = "*"
