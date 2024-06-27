@@ -2,9 +2,9 @@ import unittest
 from unittest.mock import AsyncMock, patch
 from telegram import Update, User as TelegramUser, Message, Chat
 from telegram.ext import CallbackContext
-from models.finance_model import Budget, Expense, User, session
-from handlers.budget_handler import set_budget, delete_budget, show_budgets
-from handlers.expense_handler import add_expense
+from financetracker_bot.models.finance_model import Budget, Expense, User, session
+from financetracker_bot.handlers.budget_handler import set_budget, delete_budget, show_budgets
+from financetracker_bot.handlers.expense_handler import add_expense
 import datetime
 import logging
 

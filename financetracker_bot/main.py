@@ -7,9 +7,9 @@ Handlers for these commands are imported from separate modules.
 """
 import logging
 from telegram.ext import Application, CommandHandler
-from handlers.user_handler import start, show_help
-from handlers.expense_handler import add_expense, show_expenses, delete_expense
-from handlers.budget_handler import set_budget, delete_budget, show_budgets, financial_analysis
+from financetracker_bot.handlers.user_handler import start, show_help
+from financetracker_bot.handlers.expense_handler import add_expense, show_expenses, delete_expense
+from financetracker_bot.handlers.budget_handler import set_budget, delete_budget, show_budgets, financial_analysis
 
 from config.config import TELEGRAM_BOT_TOKEN
 

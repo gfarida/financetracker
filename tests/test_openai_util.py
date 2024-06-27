@@ -1,6 +1,6 @@
 import unittest
 from unittest.mock import patch, MagicMock
-from utils.openai_util import OpenAI
+from financetracker_bot.utils.openai_util import OpenAI
 
 class TestClassifyExpense(unittest.TestCase):
 

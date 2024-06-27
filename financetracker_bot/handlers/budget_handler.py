@@ -19,8 +19,8 @@ from sqlalchemy import func
 import plotly.graph_objects as go
 
 
-from models.finance_model import Budget, session, User, Expense
-from utils.translation import _
+from financetracker_bot.finance_model import Budget, session, User, Expense
+from financetracker_bot.utils.translation import _
 
 
 async def set_budget(update: Update, context: CallbackContext) -> None:

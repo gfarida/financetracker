@@ -10,9 +10,9 @@ Functions:
 from telegram import Update
 from telegram.ext import CallbackContext
 
-from models.finance_model import User, session
+from financetracker_bot.models.finance_model import User, session
 
-from utils.translation import _
+from financetracker_bot.utils.translation import _
 
 
 HELP_TEXT = _(
