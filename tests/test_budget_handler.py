@@ -70,7 +70,7 @@ class TestBudgetHandler(unittest.IsolatedAsyncioTestCase):
         mock_reply_text.assert_called_with('Budget for category Dining deleted! Budget set to infinity.')
 
     @patch('telegram.Message.reply_text', new_callable=AsyncMock)
-    @patch('handlers.expense_handler.add_expense', new_callable=AsyncMock)
+    @patch('financetracker_bot.handlers.expense_handler.add_expense', new_callable=AsyncMock)
     async def test_show_budgets(self, mock_add_expense, mock_reply_text):
         budget = Budget(uid=123, category="Dining", amount=500)
         session.add(budget)

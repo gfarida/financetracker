@@ -1,5 +1,5 @@
 [project]
-name = "FinanceTrackerBot"
+name = "financetracker_bot"
 version = "1.0.0"
 description = "A finance tracking Telegram bot"
 readme = "README.md"
@@ -24,14 +24,14 @@ repository = "https://github.com/gfarida/financetracker"
 bugtracker = "https://github.com/gfarida/financetracker/issues"
 
 [project.scripts]
-finance_tracker = "main:main"
+financetracker_bot = "main:main"
 
 [build-system]
 requires = ["setuptools", "wheel", "coverage", "Sphinx", "build", "doit", "flake8", "pydocstyle", "pyfiglet"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.package-dir]
-finance_tracker = "financetracker_bot"
+financetracker_bot = "financetracker_bot"
 
 [tool.setuptools.package-data]
-finance_tracker = ["../docs/*", "*/*/*/*.mo"]
+financetracker_bot = ["../docs/*", "*/*/*/*.mo"]

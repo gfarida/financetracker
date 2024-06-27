@@ -5,9 +5,9 @@ the description of an expense and determine the appropriate category.
 """
 
 from openai import OpenAI as OriginalOpenAI
-from config.config import OPENAI_API_KEY
+from financetracker_bot.config.config import OPENAI_API_KEY
 
-from utils.translation import _
+from financetracker_bot.utils.translation import _
 
 
 class OpenAI:

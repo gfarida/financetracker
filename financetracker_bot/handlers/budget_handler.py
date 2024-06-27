@@ -19,7 +19,7 @@ from sqlalchemy import func
 import plotly.graph_objects as go
 
 
-from financetracker_bot.finance_model import Budget, session, User, Expense
+from financetracker_bot.models.finance_model import Budget, session, User, Expense
 from financetracker_bot.utils.translation import _
 
 
@@ -186,7 +186,7 @@ async def financial_analysis(update: Update, context: CallbackContext) -> None:
 
 
         await context.bot.send_photo(chat_id=update.effective_chat.id,
-                                     photo=open(pie_chart_path,'rb'),
+                                     photo=open(pie_chart_path,'rb'),  # pylint: disable=consider-using-with
                                      caption=response, parse_mode='Markdown')
 
     except IndexError:

@@ -1,9 +1,13 @@
+"""
+Translation module
+"""
 import gettext
 import locale
 import os
 
 
 def setup_translation():
+    "func to setup translate"
     localedir = os.path.join(os.path.abspath(os.path.dirname(__file__)), '../messages')
     lang = locale.getlocale()[0]
 
