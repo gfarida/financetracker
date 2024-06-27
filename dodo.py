@@ -52,41 +52,6 @@ def task_pot():
         'clean': True,
     }
 
-
-def task_po():
-    """Update translations."""
-    return {
-        'actions': ['pybabel update -i messages/messages.pot -d messages'],
-        'file_dep': ['messages/messages.pot'],
-        'targets': ['messages/ru/LC_MESSAGES/messages.po'],
-    }
-
-
-def task_mo():
-    """Compile translations."""
-    def create_folder(folder):
-        os.makedirs(folder, exist_ok=True)
-
-    return {
-        'actions': [
-            (create_folder, [f'{PODEST}/ru/LC_MESSAGES']),
-            'pybabel compile -d messages'
-        ],
-        'file_dep': ['messages/ru/LC_MESSAGES/messages.po'],
-        'targets': [f'{PODEST}/ru/LC_MESSAGES/messages.mo'],
-        'clean': True,
-    }
-
-
-def task_pot():
-    """Re-create .pot files."""
-    return {
-        'actions': ['pybabel extract -o messages/messages.pot .'],
-        'file_dep': glob.glob('*.py'),
-        'targets': ['messages/messages.pot'],
-        'clean': True,
-    }
-
 def task_po():
     """Update translations."""
     return {
