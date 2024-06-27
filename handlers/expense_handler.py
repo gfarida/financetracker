@@ -16,6 +16,7 @@ from telegram.ext import CallbackContext
 
 from models.finance_model import Expense, User, session, Budget
 from utils.openai_util import classify_expense
+from utils.translation import _
 
 
 async def add_expense(update: Update, context: CallbackContext) -> None:
@@ -42,7 +43,7 @@ async def add_expense(update: Update, context: CallbackContext) -> None:
     text = update.message.text.split()
 
     if len(text) < 3:
-        await update.message.reply_text("Please use the format: /add <amount> <description>")
+        await update.message.reply_text(_("Please use the format: /add <amount> <description>"))
         return
 
     try:
@@ -55,7 +56,7 @@ async def add_expense(update: Update, context: CallbackContext) -> None:
 
         user = session.query(User).filter(User.uid == user_id).first()
         if not user:
-            await update.message.reply_text('Please register first using the /start command.')
+            await update.message.reply_text(_('Please register first using the /start command.'))
             return
 
         new_expense = Expense(uid=user.uid, date=date, category=category, amount=amount)
@@ -71,13 +72,13 @@ async def add_expense(update: Update, context: CallbackContext) -> None:
 
         total_spent = session.query(func.sum(Expense.amount)).filter_by(uid=user.uid, category=category).scalar() or 0
         if total_spent > budget.amount:
-            await update.message.reply_text("Attention! Budget for category *{}* exceeded! Set budget: *{}*, current budget: *{}*".format(category, budget.amount, total_spent), parse_mode='Markdown')
+            await update.message.reply_text(_("Attention! Budget for category *{}* exceeded! Set budget: *{}*, current budget: *{}*").format(category, budget.amount, total_spent), parse_mode='Markdown')
 
-        await update.message.reply_text("Expense added: {} for {} in category *{}* \nYou have spent *{:.2f}% ({}/{})* of the budget allocated for category *{}*".format(amount, description, category, (total_spent / budget.amount) * 100, total_spent, budget.amount, category), parse_mode='Markdown')
+        await update.message.reply_text(_("Expense added: {} for {} in category *{}* \nYou have spent *{:.2f}% ({}/{})* of the budget allocated for category *{}*").format(amount, description, category, (total_spent / budget.amount) * 100, total_spent, budget.amount, category), parse_mode='Markdown')
 
     except Exception as e:  # pylint: disable=broad-except,invalid-name
         print(e)
-        await update.message.reply_text("Please use the format: /add <amount> <description>")
+        await update.message.reply_text(_("Please use the format: /add <amount> <description>"))
 
 
 async def show_expenses(update: Update, context: CallbackContext) -> None:
@@ -102,18 +103,18 @@ async def show_expenses(update: Update, context: CallbackContext) -> None:
         user_id = update.effective_user.id
         user = session.query(User).filter(User.uid == user_id).first()
         if not user:
-            await update.message.reply_text('Please register first using the /start command.')
+            await update.message.reply_text(_('Please register first using the /start command.'))
             return
 
         expenses = session.query(Expense).filter(Expense.uid == user.uid).all()
         if not expenses:
-            await update.message.reply_text('You have no expenses yet.')
+            await update.message.reply_text(_('You have no expenses yet.'))
         else:
-            msg = "\n".join(["Date: *{}*, expense: *{}*, category: *{}*, ID: *{}*".format(e.date.strftime('%Y-%m-%d %H:%M:%S'), e.amount, e.category, e.eid) for e in expenses])  # pylint: disable=used-before-assignment
-            await update.message.reply_text('Your expenses:\n{}'.format(msg), parse_mode='Markdown')
+            msg = "\n".join([_("Date: *{}*, expense: *{}*, category: *{}*, ID: *{}*").format(e.date.strftime('%Y-%m-%d %H:%M:%S'), e.amount, e.category, e.eid) for e in expenses])  # pylint: disable=used-before-assignment
+            await update.message.reply_text(_('Your expenses:\n{}').format(msg), parse_mode='Markdown')
     except Exception as e:  # pylint: disable=broad-except,invalid-name
         print(e)
-        await update.message.reply_text('An error occurred while displaying expenses.')
+        await update.message.reply_text(_('An error occurred while displaying expenses.'))
 
 async def delete_expense(update: Update, context: CallbackContext):
     """
@@ -138,25 +139,25 @@ async def delete_expense(update: Update, context: CallbackContext):
     text = update.message.text.split()
 
     if len(text) < 2:
-        await update.message.reply_text("Please use the format: /delete <expense ID>")
+        await update.message.reply_text(_("Please use the format: /delete <expense ID>"))
         return
 
     try:
         expense_id = int(text[1])
     except ValueError:
-        await update.message.reply_text("Please enter a valid expense ID.")
+        await update.message.reply_text(_("Please enter a valid expense ID."))
         return
 
     user = session.query(User).filter_by(uid=chat_id).first()
     if not user:
-        await update.message.reply_text("User not found.")
+        await update.message.reply_text(_("User not found."))
         return
 
     expense = session.query(Expense).filter_by(eid=expense_id, uid=user.uid).first()
     if not expense:
-        await update.message.reply_text("Expense not found.")
+        await update.message.reply_text(_("Expense not found."))
         return
 
     session.delete(expense)
     session.commit()
-    await update.message.reply_text("Expense with ID {} successfully deleted!".format(expense_id))
+    await update.message.reply_text(_("Expense with ID {} successfully deleted!").format(expense_id))

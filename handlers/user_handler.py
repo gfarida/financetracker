@@ -12,8 +12,10 @@ from telegram.ext import CallbackContext
 
 from models.finance_model import User, session
 
+from utils.translation import _
 
-HELP_TEXT = (
+
+HELP_TEXT = _(
     "Available commands:\n"
     "/start - Register\n"
     "/add <amount> <description> - Add an expense\n"
@@ -21,7 +23,7 @@ HELP_TEXT = (
     "/delete_budget <category> - Delete the set budget for a category\n"
     "/show_budgets - Show all set budgets\n"
     "/show - Show all added expenses\n"
-    "/remove_expense <id> - Delete an expense by ID\n"
+    "/delete <id> - Delete an expense by ID\n"
     "/analysis <start_date> <start_time> <end_date> <end_time>. "
     "Date and time format: YYYY-MM-DD HH:MM:SS\n"
     "/help - Show this message\n"
@@ -56,10 +58,10 @@ async def start(update: Update, context: CallbackContext) -> None:
         session.add(new_user)
         session.commit()
         welcome_message = (
-            "Hello! I am a finance management bot. You have successfully registered.\n"
+            _("Hello! I am a finance management bot. You have successfully registered.\n")
         )
     else:
-        welcome_message = "Hello! You are already registered.\n"
+        welcome_message = _("Hello! You are already registered.\n")
 
     welcome_message += HELP_TEXT
     await update.message.reply_text(welcome_message)
